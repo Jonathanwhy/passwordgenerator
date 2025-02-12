@@ -20,10 +20,39 @@ def generate_strong_password():
 generate_strong_password()
 
 def fetch_word():
-    url = "https://random-word-api.herouapp.com/word?length=6"
+    url = "https://random-word-api.herokuapp.com/word?length=6"
 
     response = requests.get(url)
     word = response.json()[0]
     return word
 
-print(fetch_word())
+def replaceLetters(word):
+    word = word[0].upper()+word[1:]
+    if "a" in word:
+        word = word.replace("a", "@")
+    if "e" in word:
+        word = word.replace("e","3")
+    if "i" in word:
+        word = word.replace("i", "*")
+    if "o" in word:
+        word = word.replace("o","0")
+    
+    return word
+
+def generate_weaker_password():
+    word1 = fetch_word()
+    word2 = fetch_word()
+    word1=replaceLetters(word1)
+    word2=replaceLetters(word2)
+    password = word1 + word2
+    return password
+
+weakerpassword = input("Do you want another password? (yes or no)\n")
+
+if weakerpassword == "yes":
+    print(generate_weaker_password())
+if weakerpassword == "no":
+    print("You're still getting another password")
+    print(generate_weaker_password())
+
+
